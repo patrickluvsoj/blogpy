@@ -18,8 +18,8 @@ def connect():
 @app.route('/', methods=['GET','POST'])
 def login():
     error = None
-    staus_code = 200
-    if request.method === 'POST':
+    status_code = 200
+    if request.method == 'POST':
         if request.form['username'] != app.config['USERNAME'] or \
                 request.form['password'] != app.config['PASSWORD']:
             error = 'Invalid Credentials. Please try again.'
@@ -35,6 +35,13 @@ def login():
 @app.route('/main')
 def main():
     return render_template('main.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    flash('You were logged out')
+    return redirect(url_for('login'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
